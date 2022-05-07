@@ -1,6 +1,6 @@
 <?php
 
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 use payermax\sdk\client\PayermaxClient;
 use payermax\sdk\config\MerchantConfig;
@@ -14,15 +14,17 @@ try {
     $merchantConfig->payermaxPublicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQChMWd9o9Anc8GbSYsSgx5sJOj+l3trNSchFSeVWAX+zA7P7Q+tdSh+i58Qn+jNw2yCbNoD8ev55O9B/eHe2UfrwwtEbu6At2AKxl8Y3MJI4rxieKZI4+t/quTKKyJvuf7N9t8txxPCfNTEzbFCtRugdZj7J+Z+jM4io/QXPUkuIQIDAQAB";
 
     //设置参数
-    PayermaxClient::setConfig($merchantConfig);
+    PayermaxClient::setConfig($merchantConfig, "http://pay-dev.shareitpay.in");
 
     //构造业务报文
-    $requestData = '{"outTradeNo": "PAM20220109123456111617V3","subject": "我帶兵最牛-com.corps.gp.60","totalAmount": "0.99","currency": "USD","country": "HK","userId": "100000002","goodsDetails": [{"goodsId": "com.corps.gp.60","goodsName": "60鑽石","quantity": "1","price": "0.99","goodsCurrency": "USD","showUrl": "httpw://www.okgame.com"}],"language": "en","reference": "300011","frontCallbackUrl": "https://payapi.okgame.com/v2/PayerMax/result.html","notifyUrl": "https://payapi.okgame.com/v2/PayerMax/Callback.ashx"}';
+    $requestData = '{"outTradeNo": "PAM20220109123456111617V3","subject": "hello","totalAmount": "0.99","currency": "USD","country": "HK","userId": "100000002","goodsDetails": [{"goodsId": "com.corps.gp.60","goodsName": "60鑽石","quantity": "1","price": "0.99","goodsCurrency": "USD","showUrl": "httpw://www.okgame.com"}],"language": "en","reference": "300011","frontCallbackUrl": "https://payapi.okgame.com/v2/PayerMax/result.html","notifyUrl": "https://payapi.okgame.com/v2/PayerMax/Callback.ashx"}';
     $json_decodeData = json_decode($requestData, true);
 
     //请求并获取业务返回
-    $request = PayermaxClient::send('orderAndPay', $json_decodeData);
-    echo json_encode($request)  . "\n";
+    $resp = PayermaxClient::send('orderAndPay', $json_decodeData);
+    echo json_encode($resp)  . "\n";
+
+    PayermaxClient::verify("payermax request body", "payermax request sign");
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }
