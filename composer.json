@@ -1,0 +1,25 @@
+{
+  "name": "payermax/sdk",
+  "description": "",
+  "type": "library",
+  "keywords": [
+    "payermax",
+    "sdk"
+  ],
+  "homepage": "https://github.com/sebastianbergmann/dbunit/",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "zhangsan"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "guzzlehttp/guzzle":">=6.3"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
+}
