@@ -41,8 +41,11 @@ class PayermaxClient
         //ISO 8601 带毫秒的
         $dateTime = new \DateTime();
         $req->requestTime = $dateTime->format('Y-m-d\TH:i:s.vP');
-        $req->merchantAppId = self::$merchantConfig->merchantAppId;
+        $req->appId = self::$merchantConfig->appId;
         $req->merchantNo = self::$merchantConfig->merchantNo;
+        if(!empty(self::$merchantConfig->spMerchantNo)){
+            $req->spMerchantNo = self::$merchantConfig->spMerchantNo;
+        }
         $req->data = $data;
 
         //转成json并签名
@@ -50,14 +53,18 @@ class PayermaxClient
         $sign = RSAUtils::sign($reqBody, self::$merchantConfig->merchantPrivateKey);
         //发送请求
         $requestPath = "/aggregate-pay/api/gateway/" . $apiName;
+
         $reqOptions = [
             'headers' => [
                 'sign' => $sign,
                 'content-type' => 'application/json',
-                'sdk-ver' => 'php-1.0.0'
+                'sdk-ver' => 'php-1.1.0'
             ],
             'body' => $reqBody
         ];
+        if(!empty(self::$merchantConfig->merchantAuthToken)){
+            $reqOptions['headers']['merchantAuthToken'] = self::$merchantConfig->merchantAuthToken;
+        }
         $response = self::$client->request('POST', $requestPath, $reqOptions);
 
         $respBody = (string)$response->getBody();
