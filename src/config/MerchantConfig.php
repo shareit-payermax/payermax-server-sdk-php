@@ -8,8 +8,12 @@ class MerchantConfig
 
     public $payermaxPublicKey;
 
-    public $merchantAppId;
+    public $appId;
 
     public $merchantNo;
+
+    public $spMerchantNo;
+
+    public $merchantAuthToken;
 
 }

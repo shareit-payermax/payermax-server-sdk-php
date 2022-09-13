@@ -8,10 +8,12 @@ composer install
     //构造参数
     $merchantConfig = new MerchantConfig();
     $merchantConfig->merchantNo = "your merchant no";
-    $merchantConfig->merchantAppId = "your merchantAppId";
+    $merchantConfig->appId = "your merchantAppId";
     $merchantConfig->merchantPrivateKey = "your private key";
     $merchantConfig->payermaxPublicKey = "payermax public key";
-
+    //构造ISV商户所需参数
+    $merchantConfig->spMerchantNo = "xxx";
+    $merchantConfig->merchantAuthToken = "xxx";
     //设置参数
     PayermaxClient::setConfig($merchantConfig);
 ```
