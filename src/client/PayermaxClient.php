@@ -66,7 +66,9 @@ class PayermaxClient
 
         //验签
         if(GatewayResult::success($respJson)
-            && RSAUtils::verify($respBody, $response->getHeader('sign'), self::$merchantConfig->payermaxPublicKey)) {
+            && RSAUtils::verify($respBody,
+            is_array($response->getHeader('sign')) ? $response->getHeader('sign')[0] : $response->getHeader('sign'),
+            self::$merchantConfig->payermaxPublicKey)) {
             return $respBody;
         }
 
