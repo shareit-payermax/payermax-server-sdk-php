@@ -30,4 +30,19 @@ class RSAUtils
         return $result;
     }
 
+    public static function createKeyPair()
+    {
+        $config = array(
+            "private_key_bits" => 2048,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
+        );
+        $rsaKeys = openssl_pkey_new($config);
+        openssl_pkey_export($rsaKeys, $privateKey);
+        $publicKey = openssl_pkey_get_details($rsaKeys)["key"];
+
+        $publicKey = str_replace(array("-----BEGIN PUBLIC KEY-----","-----END PUBLIC KEY-----","\n"),"",$publicKey);
+        $privateKey = str_replace(array("-----BEGIN PRIVATE KEY-----","-----END PRIVATE KEY-----","\n"),"",$privateKey);
+
+        return array( "publicKey"=>$publicKey, "privateKey"=>$privateKey);
+    }
 }
